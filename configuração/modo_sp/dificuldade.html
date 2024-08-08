@@ -57,7 +57,35 @@
             <a href="../começar/comecar.html">Voltar</a>
         </div>
         
+        <script>
 
+            // Função para verificar as dimensões da tela e ajustar a opacidade dos elementos
+            function ajustarOpacidade() {
+                var largura = window.innerWidth;
+                var altura = window.innerHeight;
+            
+                // Verificar se as dimensões atendem aos critérios
+                if (largura < 1900 && altura < 1000) {
+                    // Se atenderem, definir opacidade como 0
+                    document.querySelectorAll('.loader, .spinner').forEach(function(elemento) {
+                        elemento.style.opacity = '0';
+                    });
+                } else {
+                    // Caso contrário, definir opacidade normal
+                    document.querySelectorAll('.loader, .spinner').forEach(function(elemento) {
+                        elemento.style.opacity = '1';
+                    });
+                }
+            }
+            
+            // Adicionar ouvinte de evento para redimensionamento da tela
+            window.addEventListener('resize', ajustarOpacidade);
+            
+            // Chamar a função inicialmente para definir a opacidade com base nas dimensões atuais da tela
+            ajustarOpacidade();
+            
+            
+              </script>
 <body class="light-theme">
 
     <script src="dificuldade.js"></script>
