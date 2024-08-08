@@ -1,4 +1,4 @@
-var score = 0;
+var score = 1;
 var correctAnswer;
 var timeRemaining = 10;
 var timerInterval;
@@ -10,34 +10,22 @@ var roboSound = document.getElementById('robo-sound');
 var timerSound = document.getElementById('timer-sound');
 var confettiSound = document.getElementById('confetti-sound');
 var errorSounds = ['error-sound-1', 'error-sound-2', 'error-sound-3'];
+//var keypressSounds = ['keypress-sound-1', 'keypress-sound-2'];
 var gameoverSound = document.getElementById('gameover-sound');
 
-var maxNumber = 10;
-var consecutiveCorrectAnswers = 0;
-
+// A function to generate a random math question
 function generateQuestion() {
-  var num1 = Math.floor(Math.random() * maxNumber) + 1;
-  var divisors = getDivisors(num1);
-  var num2 = divisors[Math.floor(Math.random() * divisors.length)];
+  var num1 = Math.floor(Math.random() * 10);
+  var num2 = Math.floor(Math.random() * 10);
   correctAnswer = num1 / num2;
 
-  document.getElementById('question').innerText = "Quanto é " + num1 + " dividido por " + num2 + "?";
-}
-
-function getDivisors(n) {
-  var divisors = [];
-  for (var i = 1; i <= n; i++) {
-    if (n % i === 0) {
-      divisors.push(i);
-    }
-  }
-  return divisors;
+  document.getElementById('question').innerText = "Qual é a divisão " + num1 + " e " + num2 + "?";
 }
 
 function playRandomErrorSound() {
   var soundId = errorSounds[Math.floor(Math.random() * errorSounds.length)];
   var sound = document.getElementById(soundId);
-  sound.volume = 0.2;
+  sound.volume = 0.5;
   sound.play();
 }
 
@@ -51,15 +39,6 @@ function checkAnswer() {
     });
     confettiSound.volume = 0.2;
     confettiSound.play();
-    consecutiveCorrectAnswers++;
-    
-    if (consecutiveCorrectAnswers >= 3) {
-      maxNumber += 5;
-      if (maxNumber > 100) {
-        maxNumber = 100;
-      }
-      consecutiveCorrectAnswers = 0;
-    }
     
     score++;
     if (timeRemaining + timeIncrement > 10) {
@@ -67,12 +46,18 @@ function checkAnswer() {
     } else {
       timeRemaining += timeIncrement;
     }
+    timeIncrement *= 1; 
     document.getElementById('score').innerText = "Score: " + score;
     document.getElementById('feedback').innerText = "";
-    
+    generateQuestion();
   } else {
     playRandomErrorSound();
-    consecutiveCorrectAnswers = 0;
+    score--;
+
+    document.getElementById('score').innerText = "Score: " + score;
+
+    // Reduzir o tempo restante em uma certa quantidade ao errar a resposta
+    timeRemaining -= 1; // Reduzir o tempo em 1 segundo (ou a quantidade desejada)
     
     document.body.classList.add('error-shake');
     document.body.style.overflow = 'hidden';
@@ -83,48 +68,53 @@ function checkAnswer() {
         document.body.classList.remove('error-shake');
         document.body.style.overflow = '';
     }, 500);
+
+    generateQuestion();
   }
   
   document.getElementById('answer').value = '';
-  generateQuestion();
 }
+
+
+
 
 function startTimer() {
   var timerBar = document.getElementById('timer-bar');
   timerBar.style.width = '100%';
   
-  timerSound.volume = 0.2;
+  timerSound.volume = 0.1;
   timerSound.play();
 
   timerInterval = setInterval(function() {
-    // Reduzindo a quantidade de tempoRemaining em cada intervalo para 0.025 em vez de 0.05.
-    timeRemaining -= 0.025;
-    if (timeRemaining <= 0) {
+    timeRemaining -= 0.05;
+    if (timeRemaining <= 0 || score<0) {
       gameOver();
-    } else {
+    }
+    else {
       timerBar.style.width = (timeRemaining / 10) * 100 + '%';
     }
-  }, 100);  // Aumentando o intervalo para 100ms em vez de 50ms.
+  }, 200);
 }
 
 
 function gameOver() {
   clearInterval(timerInterval);
   
-  timerSound.pause();
-  timerSound.currentTime = 0;
+  timerSound.pause(); // Parar o som do timer
+  timerSound.currentTime = 0; // Reseta o tempo do áudio para o começo
   
-  gameoverSound.volume = 0.2;
+  gameoverSound.volume = 0.1;
   gameoverSound.play();
 
   document.getElementById('game-container').style.display = 'none';
   document.getElementById('game-over-container').style.display = 'flex';
-  document.getElementById('feedback-message').innerText = "Tempo esgotado! Você Perdeu!";
+  document.getElementById('feedback-message').innerText = "Errado! Você Perdeu!";
   
   document.getElementById('restart-button').focus();
 }
 
-var keypressSounds = ['keypress-sound-1', 'keypress-sound-2'].map(id => document.getElementById(id));
+// Adicionando a lista correta de sons e a função
+//var keypressSounds = ['keypress-sound-1', 'keypress-sound-2'].map(id => document.getElementById(id));
 
 function playRandomKeypressSound() {
   var sound = keypressSounds[Math.floor(Math.random() * keypressSounds.length)];
@@ -156,8 +146,8 @@ document.getElementById('answer').addEventListener('keydown', function (e) {
 });
 
 document.getElementById('restart-button').addEventListener('click', function () {
-  gameoverSound.pause();
-  gameoverSound.currentTime = 0;
+  gameoverSound.pause(); // Parar o som de gameover
+  gameoverSound.currentTime = 0; // Reseta o tempo do áudio para o começo
 
   document.getElementById('game-over-container').style.display = 'none';
   document.getElementById('game-container').style.display = 'flex';
@@ -171,6 +161,8 @@ document.getElementById('restart-button').addEventListener('click', function () 
   document.getElementById('answer').value = '';
   document.getElementById('answer').focus();
 });
+
+
 
 window.addEventListener('load', (event) => {
   fetchImage();
@@ -208,6 +200,10 @@ document.getElementById('start-button').addEventListener('click', function () {
   startTimer();
   document.getElementById('answer').focus();
 });
+
+
+var socket = io('http://localhost:3000'); // Conecta ao servidor
+
 
 
 //Volume

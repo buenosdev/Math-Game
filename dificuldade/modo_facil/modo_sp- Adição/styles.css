@@ -201,6 +201,7 @@ body {
   background: #ff362b34;
   border-radius: 20px;
   cursor: pointer;
+  margin-top: 5%;
 }
 
 .lable {
@@ -307,7 +308,6 @@ body {
 
 
 /*Transição*/
-
 
 /*Animação do voltar*/
 
@@ -444,144 +444,177 @@ body {
   box-shadow: var(--box-shadow-color);
 }
 
-#popup-menu button {
-  transition: 0.3s;
-  background-color: var(--btn-bg-color); /* A cor do botão do pop-up deve corresponder à cor do botão do tema */
-  color: var(--btn-text-color); /* A cor do texto do botão do pop-up deve corresponder à cor do texto do botão do tema */
-  padding: 10px 20px;
+
+/*Botão menu*/
+
+#popup-menu a {
   text-decoration: none;
   display: block;
   text-align: left;
-  border: none;
+  font-size: 18px;
   width: 100%;
-  cursor: pointer;
+  margin-top: 15px;
   margin-bottom: 10px;
+  color: var(--text-color);
+  font-family: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  background: none;
+  text-transform: uppercase;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: color;
 }
 
-#popup-menu button:hover {
-  background-color: var(--btn-hover-bg-color); /* A cor do hover do botão do pop-up deve corresponder à cor do hover do botão do tema */
+#popup-menu a:focus,
+#popup-menu a:hover {
+  color: var(--text-color);
+}
+
+#popup-menu a:focus:after,
+#popup-menu a:hover:after {
+  width: 100%;
+  left: 0%;
+}
+
+#popup-menu a:after {
+  content: "";
+  pointer-events: none;
+  bottom: -2px;
+  left: 50%;
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: var(--text-color);
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: width, left;
 }
 
 
+
+/* MUDAR DE TEMA */
+
+.btn-container {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  position: relative;
+  bottom: -99%;
+  left: 50%; /* Coloca o lado esquerdo no centro */
+  transform: translateX(-50%); /* Move para a esquerda pelo meio de sua própria largura */
+  border-top: var(--borda-dahora-color);
+  padding-top: 20px;
+  margin-top: -210px; /* Ajuste esse valor para mover o botão para cima */
   
-  /* MUDAR DE TEMA */
+}
+
+.btn-container i {
+  display: inline-block;
+  position: relative;
+  top: -9px;
   
-  .btn-container {
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
-    position: relative;
-    bottom: -90%;
-    left: 50%; /* Coloca o lado esquerdo no centro */
-    transform: translateX(-50%); /* Move para a esquerda pelo meio de sua própria largura */
-    border-top: var(--borda-dahora-color);
-    padding-top: 20px;
-    margin-top: -170px; /* Ajuste esse valor para mover o botão para cima */
-  }
+}
+
+label {
+  font-size: 10px;
+  color: #424242;
+  font-weight: 500;
   
-  .btn-container i {
-    display: inline-block;
-    position: relative;
-    top: -9px;
-    
-  }
-  
-  label {
-    font-size: 13px;
-    color: #424242;
-    font-weight: 500;
-    
-  }
-  
-  .btn-color-mode-switch {
-    display: inline-block;
-    margin: 0px;
-    position: relative;
-  }
-  
-  .btn-color-mode-switch > label.btn-color-mode-switch-inner {
-    margin: 0px;
-    width: 140px;
-    height: 30px;
-    background: #E0E0E0;
-    border-radius: 26px;
-    overflow: hidden;
-    position: relative;
-    transition: all 0.3s ease;
-      /*box-shadow: 0px 0px 8px 0px rgba(17, 17, 17, 0.34) inset;*/
-    display: block;
-  }
-  
-  .btn-color-mode-switch > label.btn-color-mode-switch-inner:before {
-    content: attr(data-on);
-    position: absolute;
-    font-size: 12px;
-    font-weight: 500;
-    top: 7px;
-    right: 20px;
-  }
-  
-  .btn-color-mode-switch > label.btn-color-mode-switch-inner:after {
-    content: attr(data-off);
-    width: 70px;
-    height: 16px;
-    background: #fff;
-    border-radius: 26px;
-    position: absolute;
-    left: 2px;
-    top: 2px;
-    text-align: center;
-    transition: all 0.3s ease;
-    box-shadow: 0px 0px 6px -2px #111;
-    padding: 5px 0px;
-  }
-  
-  .btn-color-mode-switch > .alert {
-    display: none;
-    background: #FF9800;
-    border: none;
-    color: #fff;
-  }
-  
-  .btn-color-mode-switch input[type="checkbox"] {
-    cursor: pointer;
-    width: 50px;
-    height: 25px;
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    z-index: 1;
-    margin: 0px;
-  }
-  
-  .btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner {
-    background: #151515;
-    color: #fff;
-  }
-  
-  .btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner:after {
-    content: attr(data-on);
-    left: 68px;
-    background: #3c3c3c;
-  }
-  
-  .btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner:before {
-    content: attr(data-off);
-    right: auto;
-    left: 20px;
-  }
-  
-  .btn-color-mode-switch input[type="checkbox"]:checked ~ .alert {
-    display: block;
-  }
-  
-  .dark-preview {
-    background: #0d0d0d;
-  }
-  
-  .white-preview {
-    background: #fff;
-  }
+}
+
+.btn-color-mode-switch {
+  display: inline-block;
+  margin: 0px;
+  position: relative;
+}
+
+.btn-color-mode-switch > label.btn-color-mode-switch-inner {
+  margin: 0px;
+  width: 140px;
+  height: 30px;
+  background: #E0E0E0;
+  border-radius: 26px;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+    /*box-shadow: 0px 0px 8px 0px rgba(17, 17, 17, 0.34) inset;*/
+  display: block;
+}
+
+.btn-color-mode-switch > label.btn-color-mode-switch-inner:before {
+  content: attr(data-on);
+  position: absolute;
+  font-size: 10px;
+  font-weight: 500;
+  top: 7px;
+  right: 20px;
+}
+
+.btn-color-mode-switch > label.btn-color-mode-switch-inner:after {
+  content: attr(data-off);
+  width: 70px;
+  height: 16px;
+  background: #fff;
+  border-radius: 26px;
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0px 0px 6px -2px #111;
+  padding: 5px 0px;
+}
+
+.btn-color-mode-switch > .alert {
+  display: none;
+  background: #FF9800;
+  border: none;
+  color: #fff;
+}
+
+.btn-color-mode-switch input[type="checkbox"] {
+  cursor: pointer;
+  width: 50px;
+  height: 25px;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  margin: 0px;
+}
+
+.btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner {
+  background: #151515;
+  color: #fff;
+}
+
+.btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner:after {
+  content: attr(data-on);
+  left: 68px;
+  background: #3c3c3c;
+}
+
+.btn-color-mode-switch input[type="checkbox"]:checked + label.btn-color-mode-switch-inner:before {
+  content: attr(data-off);
+  right: auto;
+  left: 20px;
+}
+
+.btn-color-mode-switch input[type="checkbox"]:checked ~ .alert {
+  display: block;
+}
+
+.dark-preview {
+  background: #0d0d0d;
+}
+
+.white-preview {
+  background: #fff;
+}
+
   
 
 

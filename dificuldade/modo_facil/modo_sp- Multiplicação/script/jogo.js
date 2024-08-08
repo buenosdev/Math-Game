@@ -1,4 +1,4 @@
-var score = 0;
+var score = 1;
 var correctAnswer;
 var timeRemaining = 10;
 var timerInterval;
@@ -17,16 +17,15 @@ var gameoverSound = document.getElementById('gameover-sound');
 function generateQuestion() {
   var num1 = Math.floor(Math.random() * 10);
   var num2 = Math.floor(Math.random() * 10);
-  correctAnswer = num1 * num2;  // Mudança: multiplicação ao invés de soma
+  correctAnswer = num1 * num2;
 
-  document.getElementById('question').innerText = "Qual é o produto de " + num1 + " e " + num2 + "?"; // Mudança: mensagem atualizada
+  document.getElementById('question').innerText = "Qual é o produto de " + num1 + " e " + num2 + "?";
 }
-
 
 function playRandomErrorSound() {
   var soundId = errorSounds[Math.floor(Math.random() * errorSounds.length)];
   var sound = document.getElementById(soundId);
-  sound.volume = 0.2;
+  sound.volume = 0.5;
   sound.play();
 }
 
@@ -53,7 +52,13 @@ function checkAnswer() {
     generateQuestion();
   } else {
     playRandomErrorSound();
+    score--;
 
+    document.getElementById('score').innerText = "Score: " + score;
+
+    // Reduzir o tempo restante em uma certa quantidade ao errar a resposta
+    timeRemaining -= 1; // Reduzir o tempo em 1 segundo (ou a quantidade desejada)
+    
     document.body.classList.add('error-shake');
     document.body.style.overflow = 'hidden';
 
@@ -77,14 +82,15 @@ function startTimer() {
   var timerBar = document.getElementById('timer-bar');
   timerBar.style.width = '100%';
   
-  timerSound.volume = 0.2;
+  timerSound.volume = 0.1;
   timerSound.play();
 
   timerInterval = setInterval(function() {
     timeRemaining -= 0.05;
-    if (timeRemaining <= 0) {
+    if (timeRemaining <= 0 || score<0) {
       gameOver();
-    } else {
+    }
+    else {
       timerBar.style.width = (timeRemaining / 10) * 100 + '%';
     }
   }, 200);
@@ -97,12 +103,12 @@ function gameOver() {
   timerSound.pause(); // Parar o som do timer
   timerSound.currentTime = 0; // Reseta o tempo do áudio para o começo
   
-  gameoverSound.volume = 0.2;
+  gameoverSound.volume = 0.1;
   gameoverSound.play();
 
   document.getElementById('game-container').style.display = 'none';
   document.getElementById('game-over-container').style.display = 'flex';
-  document.getElementById('feedback-message').innerText = "Tempo esgotado! Você Perdeu!";
+  document.getElementById('feedback-message').innerText = "Errado! Você Perdeu!";
   
   document.getElementById('restart-button').focus();
 }
@@ -194,6 +200,10 @@ document.getElementById('start-button').addEventListener('click', function () {
   startTimer();
   document.getElementById('answer').focus();
 });
+
+
+var socket = io('http://localhost:3000'); // Conecta ao servidor
+
 
 
 //Volume

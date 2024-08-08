@@ -1,34 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="dificuldade.css">
-    <title>Alterar dificuldade</title>
+    <title>Dificuldade</title>
 </head>
 <body>
-<!--     <div id="overlay"></div> -->
-    <div class="site-container">  
-    <input id="checkbox" type="checkbox">
-    <label class="toggle" for="checkbox">
-        <div id="bar1" class="bars"></div>
-        <div id="bar2" class="bars"></div>
-        <div id="bar3" class="bars"></div>
-        
-    </label>
-    <audio id="myAudio">
-        <source src="hover.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="click-sound" src="click.mp3" preload="auto"></audio>
-    
-
-    
-    <div id="popup-menu">
-        <a href="../inicio/inicio_game.html"><button>MENU INICIAL</button></a>
-        <a href="../começar/comecar.html"><button>ESCOLHER MODO DE SERVIDOR</button></a>
-        <a href="../modo_sp/dificuldade.html"><button>ESCOLHER DIFICULDADE</button></a>
-        <a href="../configuração/configuração.html"><button>CONFIGURAÇÕES</button></a>
 
       
+    <div class="site-container">
+        <input id="checkbox" type="checkbox">
+        <label class="toggle" for="checkbox">
+            <div id="bar1" class="bars"></div>
+            <div id="bar2" class="bars"></div>
+            <div id="bar3" class="bars"></div>
+        </label>
+        <audio id="myAudio">
+            <source src="hover.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="click-sound" src="click.mp3" preload="auto"></audio>
 
+        <div id="popup-menu">
+            <div class="popup-menu">
+            <a href="../index.html">Menu incial</a>
+            <a href="../comecar/comecar.html">Modo de jogo</a>
+            <a href="../dificuldade/dificuldade.html">Dificuldade</a>
+            <a href="../configuração/configuração.html">Configurar</a>
+            </div>
+        
+    
+        
         <div class="btn-container">
             <svg viewBox="0 0 16 16" class="bi bi-sun-fill" fill="currentColor" width="23" xmlns="http://www.w3.org/2000/svg">
           <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z" color="red"></path>
@@ -44,23 +45,63 @@
             </div>
 
     </div>
-
     <div class="home-container">
         <img src="logo.png" alt="Logo" class="logo">
-        <h1>Escolha seu modo de jogar:</h1>
-        <div class="button">
-            <a href="../modo_sp- Adição/facil - adição.html">Adição</a>
-            <a href="../modo_sp- Subtração/facil - subtração.html">Subtração</a>
-            <a href="../modo_sp- Multiplicação/facil - multiplicação.html">Multiplicação</a>
-            <a href="../modo_sp- Divisão/facil - divisão.html">Divisão</a>
-
-            <a href="../começar/comecar.html">Voltar</a>
+        <div class="spinner">
+            <div class="loader l1"></div>
+            <div class="loader l2"></div>
         </div>
+        <h1>Escolha: </h1>
+        <div class="button">
+            <a href="./modo_sp/facil.html">Fácil</a>
+            <a href="">Médio</a>
+            <a href="" style="text-align: center; display: block;">Dificil</a>
+            <a href="../comecar/comecar.html">Voltar</a>
+        </div>
+    </div>
+    
         
 
 <body class="light-theme">
+<!-- Script do jogo -->
+<script src="dificuldade.js"></script>
 
-    <script src="dificuldade.js"></script>
+<!-- Cliente Socket.io -->
+<script src="/socket.io/socket.io.js"></script>
+
+
+
+<script>
+
+// Função para verificar as dimensões da tela e ajustar a opacidade dos elementos
+function ajustarOpacidade() {
+    var largura = window.innerWidth;
+    var altura = window.innerHeight;
+
+    // Verificar se as dimensões atendem aos critérios
+    if (largura < 1900 && altura < 1000) {
+        // Se atenderem, definir opacidade como 0
+        document.querySelectorAll('.loader, .spinner').forEach(function(elemento) {
+            elemento.style.opacity = '0';
+        });
+    } else {
+        // Caso contrário, definir opacidade normal
+        document.querySelectorAll('.loader, .spinner').forEach(function(elemento) {
+            elemento.style.opacity = '1';
+        });
+    }
+}
+
+// Adicionar ouvinte de evento para redimensionamento da tela
+window.addEventListener('resize', ajustarOpacidade);
+
+// Chamar a função inicialmente para definir a opacidade com base nas dimensões atuais da tela
+ajustarOpacidade();
+
+
+  </script>
+<!-- Script multiplayer -->
+<script src="multiplayer.js"></script>
     
 </body>
 

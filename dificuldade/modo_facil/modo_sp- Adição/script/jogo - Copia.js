@@ -1,8 +1,13 @@
-var score = 0;
+
 var correctAnswer;
 var timeRemaining = 10;
 var timerInterval;
 var timeIncrement = 2;
+
+
+
+rodrigo = new Player("Rodrigo")
+dani = new Player("Davi")
 
 // Variáveis de som
 var clickSound = document.getElementById('click-sound');
