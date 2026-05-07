@@ -8,6 +8,8 @@ A ideia começou como um pequeno experimento, mas com uma visão maior por trás
 
 O objetivo do projeto é servir como base para uma futura integração com a plataforma **Intellectum**, expandindo o conceito para múltiplos jogos e experiências educacionais conectadas, unindo tecnologia, educação e interação digital.
 
+Intellectum: https://github.com/buenosdev/Intellectum
+
 Este projeto também representa um espaço de estudo e evolução contínua em:
 - lógica de programação,
 - desenvolvimento web,
@@ -26,6 +28,8 @@ Initial project of an interactive math game created to explore gamification, log
 The idea started as a small experiment, but with a broader vision behind it: transforming simple games into more engaging, accessible, and scalable learning tools in the future.
 
 The project is intended to become part of the **Intellectum** platform, expanding into multiple educational games and connected digital learning experiences combining technology, education, and user interaction.
+
+Intellectum: https://github.com/buenosdev/Intellectum
 
 This project also serves as a continuous learning space for:
 - programming logic,
